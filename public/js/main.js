@@ -5,15 +5,17 @@
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
   /* ------------------------------------------------ mobile nav */
-  const nav = $('#mainNav'), toggle = $('#navToggle'), backdrop = $('#navBackdrop');
-  function closeNav() { nav?.classList.remove('open'); toggle?.classList.remove('open'); backdrop?.classList.remove('show'); document.body.style.overflow = ''; }
+  const nav = $('#mainNav'), toggle = $('#navToggle'), backdrop = $('#navBackdrop'), drawer = $('#navDrawer');
+  function closeNav() { nav?.classList.remove('open'); drawer?.classList.remove('open'); toggle?.classList.remove('open'); backdrop?.classList.remove('show'); document.body.style.overflow = ''; }
   toggle?.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
+    drawer?.classList.toggle('open', open);
     toggle.classList.toggle('open', open);
     backdrop.classList.toggle('show', open);
     document.body.style.overflow = open ? 'hidden' : '';
   });
   backdrop?.addEventListener('click', closeNav);
+  drawer?.addEventListener('click', (e) => { if (e.target === drawer) closeNav(); });
   $$('#mainNav a').forEach(a => a.addEventListener('click', closeNav));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
 

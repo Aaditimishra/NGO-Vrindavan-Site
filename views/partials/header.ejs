@@ -26,6 +26,7 @@
         <span class="brand-sub">Vrindavan · Since <%= c.site.estYear %></span>
       </span>
     </a>
+    <div class="nav-drawer" id="navDrawer">
     <nav class="main-nav" id="mainNav">
       <a href="/" class="<%= path === '/' ? 'active' : '' %>">मुख्य पृष्ठ</a>
       <a href="/about" class="<%= path.startsWith('/about') ? 'active' : '' %>">हमारे बारे में</a>
@@ -37,6 +38,7 @@
       <a href="/contact" class="<%= path.startsWith('/contact') ? 'active' : '' %>">संपर्क</a>
       <a href="/donate" class="nav-cta">दान करें</a>
     </nav>
+    </div>
     <button class="nav-toggle" id="navToggle" aria-label="मेन्यू"><span></span><span></span><span></span></button>
   </div>
 </header>

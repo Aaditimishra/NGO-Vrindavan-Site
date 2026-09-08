@@ -39,7 +39,7 @@
 html{scroll-behavior:smooth}
 body{
   margin:0;font-family:var(--body);color:var(--text);background:var(--cream);
-  font-size:17px;line-height:1.85;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  font-size:17px;line-height:1.85;-webkit-font-smoothing:antialiased;
 }
 img{max-width:100%;display:block}
 a{color:var(--saffron);text-decoration:none;transition:.25s}
@@ -82,7 +82,9 @@ section{position:relative}
 
 /* ============================================================== HEADER */
 .site-header{
-  position:sticky;top:0;z-index:50;background:rgba(255,251,244,.94);
+  /* z-index backdrop (54) से ऊपर — वरना खुले मेन्यू के लिंक क्लिक नहीं होते,
+     क्योंकि sticky header अपना stacking context बनाता है */
+  position:sticky;top:0;z-index:70;background:rgba(255,251,244,.94);
   backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:.3s;
 }
 .site-header.scrolled{box-shadow:var(--shadow-m);background:rgba(255,251,244,.98)}
@@ -100,6 +102,7 @@ section{position:relative}
 .brand-name{font-family:var(--deva);font-size:1.16rem;color:var(--ink);font-weight:600;letter-spacing:.01em}
 .brand-sub{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--saffron);font-weight:600}
 
+.nav-drawer{display:contents}
 .main-nav{display:flex;align-items:center;gap:4px}
 .main-nav a{
   font-family:var(--deva);font-size:1rem;color:var(--ink);padding:9px 14px;border-radius:10px;
@@ -652,10 +655,17 @@ section{position:relative}
 }
 @media (max-width:860px){
   .nav-toggle{display:flex}
+  /* backdrop-filter position:fixed बच्चों के लिए containing block बना देता है,
+     जिससे drawer viewport के बजाय header के अंदर सिमट जाता है — इसलिए मोबाइल पर हटाया */
+  .site-header,.site-header.scrolled{backdrop-filter:none;background:var(--cream)}
+  /* wrapper viewport जितना ही है और अंदर से clip करता है — इसलिए बंद drawer
+     पेज को चौड़ा नहीं करता (position:fixed को overflow-x:hidden clip नहीं कर पाता) */
+  .nav-drawer{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:55;display:block}
+  .nav-drawer.open{pointer-events:auto}
   .main-nav{
-    position:fixed;inset:0 0 0 auto;width:min(85vw,340px);background:var(--cream);flex-direction:column;
+    position:absolute;top:0;bottom:0;right:0;width:min(85vw,340px);background:var(--cream);flex-direction:column;
     align-items:stretch;padding:100px 24px 40px;transform:translateX(105%);transition:.4s cubic-bezier(.4,0,.2,1);
-    box-shadow:-16px 0 50px rgba(43,27,71,.22);gap:6px;overflow-y:auto;z-index:55;
+    box-shadow:-16px 0 50px rgba(43,27,71,.22);gap:6px;overflow-y:auto;
   }
   .main-nav.open{transform:none}
   .main-nav a{padding:14px 18px;border-bottom:1px solid var(--line);border-radius:0;font-size:1.06rem}
@@ -685,3 +695,55 @@ section{position:relative}
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .reveal{opacity:1;transform:none}
 }
+
+/* ==========================================================================
+   मोबाइल सुधार — tap target का आकार एवं hero की ऊँचाई
+   ========================================================================== */
+@media (max-width:860px){
+  /* hero का चित्र छोटा, ताकि शीर्षक पहली स्क्रीन पर ही दिखे */
+  .hero{min-height:auto}
+  .hero-slide{padding:44px 0 60px}
+  .hero-art .frame{width:min(58%,240px);aspect-ratio:1/1.15}
+  .hero-inner{gap:28px}
+  .hero h1{font-size:clamp(1.9rem,7.2vw,2.6rem)}
+  .hero p{font-size:1rem;margin-bottom:1.5em}
+  .hero-btns{justify-content:center;width:100%}
+  .hero-btns .btn{flex:1 1 auto;justify-content:center;min-width:150px}
+
+  /* उँगली से दबाने लायक आकार (कम से कम 44px) */
+  .topbar .tb-item a,
+  .footer-links a,
+  .footer-contact a,
+  .seva-link,
+  .crumbs a{min-height:40px;display:inline-flex;align-items:center}
+  .footer-links a{padding:3px 0}
+  .gal-filters button{padding:12px 22px;min-height:44px}
+  .copy-btn{min-height:38px;padding:8px 14px;border:1px solid var(--line);border-radius:8px;
+    display:inline-flex;align-items:center}
+  .hero-dots{gap:6px;bottom:22px}
+  .hero-dots button{width:38px;height:38px;border:0;background:none;display:grid;place-items:center;position:relative}
+  .hero-dots button::after{content:"";width:10px;height:10px;border-radius:50%;
+    border:1.5px solid var(--gold-l);transition:.3s}
+  .hero-dots button.active::after{background:var(--marigold);border-color:var(--marigold);width:30px;border-radius:6px}
+  .tb-social a{width:34px;height:34px}
+  .faq-q{padding:18px 20px;min-height:56px}
+  .detail-row{padding:15px 0}
+  .detail-row dd{text-align:left;width:100%}
+}
+@media (max-width:560px){
+  .hero-art .frame{width:min(50%,190px)}
+  .hero-btns{flex-direction:column}
+  .hero-btns .btn{width:100%}
+  .page-hero{padding:52px 0 70px}
+  .section{padding:52px 0}
+  .float-wa{width:52px;height:52px;right:16px;bottom:16px}
+  .to-top{left:16px;bottom:16px}
+  .event-body,.seva-body,.blog-body{padding:22px 20px}
+  .form-card,.pay-box,.info-card{padding:24px 20px}
+  .quote-band blockquote{font-size:1.08rem}
+  .testi-card,.mv-card,.value-card{padding:26px 22px}
+}
+
+/* शीर्षक के अंदर के लिंक पूरी चौड़ाई में — मोबाइल पर दबाने में आसान */
+.blog-body h3 a,.seva-body h3 a{display:block}
+.footer-bottom a{display:inline-block;padding:6px 2px}
