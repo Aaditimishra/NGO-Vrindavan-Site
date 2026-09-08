@@ -19,6 +19,16 @@ const ok = (name, cond, extra = '') => {
 };
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
+/** Shart poori hone ka intezaar karo (Blob storage par requests dheemi hoti hain) */
+async function waitFor(b, expr, ms = 12000) {
+  const end = Date.now() + ms;
+  while (Date.now() < end) {
+    try { if (await b.eval(`return !!(${expr})`)) return true; } catch (_) {}
+    await sleep(250);
+  }
+  return false;
+}
+
 (async () => {
   const b = await launch();
   await b.viewport(1440, 900, false);
@@ -30,13 +40,12 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   await b.type('input[name=username]', USER);
   await b.type('input[name=password]', PASS);
   await b.click('button.btn-a.primary');
-  await sleep(1600);
-  ok('डैशबोर्ड खुला', await b.eval(`return !!document.getElementById('sideNav') && document.querySelectorAll('#sideNav button').length > 10`));
+  ok('डैशबोर्ड खुला', await waitFor(b, `document.querySelectorAll('#sideNav button').length > 10`));
 
   /* --------------------------------------------------- gallery: जोड़ना */
   console.log('\n▸ गैलरी — चित्र जोड़ना');
   await b.click('#sideNav button[data-sec="gallery"]');
-  await sleep(500);
+  await waitFor(b, `document.querySelectorAll('[data-list="gallery.images"]').length > 0`);
   const before = await b.eval(`return document.querySelectorAll('[data-list="gallery.images"]').length`);
   ok('गैलरी अनुभाग खुला', before > 0, `items=${before}`);
 
@@ -61,7 +70,7 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   /* --------------------------------------------------------- सहेजना */
   console.log('\n▸ सहेजना');
   await b.click('#saveBtn');
-  await sleep(1500);
+  await waitFor(b, `document.getElementById('status').className.includes('saved')`);
   const saved = await b.eval(`return { cls: document.getElementById('status').className,
                                        toast: document.getElementById('toast').textContent }`);
   ok('सहेजा गया संदेश आया', saved.cls.includes('saved'), JSON.stringify(saved));
@@ -74,9 +83,9 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   /* -------------------------------------------------- gallery: हटाना */
   console.log('\n▸ गैलरी — चित्र हटाना (🗑 बटन)');
   await b.goto(BASE + '/admin');
-  await sleep(900);
+  await waitFor(b, `document.querySelectorAll('#sideNav button').length > 10`);
   await b.click('#sideNav button[data-sec="gallery"]');
-  await sleep(500);
+  await waitFor(b, `document.querySelectorAll('[data-list="gallery.images"]').length > 0`);
   const idx = await b.eval(`
     const items = [...document.querySelectorAll('[data-list="gallery.images"]')];
     const hit = items.find(i => i.querySelector('.ttl').textContent.trim() === ${JSON.stringify(TAG)});
@@ -116,7 +125,7 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   ok('गिनती वापस पहले जैसी', removed.count === before, `${removed.count} vs ${before}`);
 
   await b.click('#saveBtn');
-  await sleep(1500);
+  await waitFor(b, `document.getElementById('status').className.includes('saved')`);
   await b.eval(`window.onbeforeunload = null;`);
   await b.goto(BASE + '/gallery');
   ok('चित्र वेबसाइट से भी हटा', await b.eval(`return !document.body.innerText.includes(${JSON.stringify(TAG)})`));
@@ -124,9 +133,9 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   /* -------------------------------------------------- kram badalna */
   console.log('\n▸ क्रम बदलना (↑ ↓ बटन)');
   await b.goto(BASE + '/admin');
-  await sleep(900);
+  await waitFor(b, `document.querySelectorAll('#sideNav button').length > 10`);
   await b.click('#sideNav button[data-sec="seva"]');
-  await sleep(500);
+  await waitFor(b, `document.querySelectorAll('[data-list="seva.items"]').length > 0`);
   const names0 = await b.eval(`return [...document.querySelectorAll('[data-list="seva.items"] .ttl')].map(t=>t.textContent.trim())`);
   await b.click(`button[data-move="seva.items"][data-from="1"][data-dir="-1"]`);
   await sleep(600);
@@ -137,26 +146,27 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   const names2 = await b.eval(`return [...document.querySelectorAll('[data-list="seva.items"] .ttl')].map(t=>t.textContent.trim())`);
   ok('↓ बटन से क्रम वापस हुआ', names2[0] === names0[0], `${names2.slice(0,2)}`);
   await b.click('#saveBtn');
-  await sleep(1200);
+  await waitFor(b, `document.getElementById('status').className.includes('saved')`);
 
   /* ------------------------------------------------------ संपर्क विवरण */
   console.log('\n▸ संपर्क विवरण बदलना');
   await b.click('#sideNav button[data-sec="contact"]');
-  await sleep(500);
+  await waitFor(b, `document.querySelector('input[data-path="contact.phone"]')`);
   const oldPhone = await b.eval(`return document.querySelector('input[data-path="contact.phone"]').value`);
   await b.type('input[data-path="contact.phone"]', '+91 70000 12345');
   await b.click('#saveBtn');
-  await sleep(1500);
+  await waitFor(b, `document.getElementById('status').className.includes('saved')`);
+  await sleep(11000);                       // Blob mode ka 10 sec public cache
   await b.eval(`window.onbeforeunload = null;`);
   await b.goto(BASE + '/');
   ok('नया फोन वेबसाइट पर दिखा', await b.eval(`return document.body.innerText.includes('+91 70000 12345')`));
   await b.goto(BASE + '/admin');
-  await sleep(900);
+  await waitFor(b, `document.querySelectorAll('#sideNav button').length > 10`);
   await b.click('#sideNav button[data-sec="contact"]');
-  await sleep(500);
+  await waitFor(b, `document.querySelector('input[data-path="contact.phone"]')`);
   await b.type('input[data-path="contact.phone"]', oldPhone);
   await b.click('#saveBtn');
-  await sleep(1500);
+  await waitFor(b, `document.getElementById('status').className.includes('saved')`);
   ok('फोन वापस पुराना हुआ', true);
 
   /* ------------------------------------------------------------- inbox */
@@ -166,25 +176,25 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   await b.type('input[name=name]', 'UI टेस्ट भेजने वाला');
   await b.type('textarea[name=message]', 'यह browser से भेजा गया टेस्ट संदेश है।');
   await b.click('form[data-ajax] button[type=submit]');
-  await sleep(1600);
+  await waitFor(b, `document.querySelector('.form-msg.show')`);
   ok('संपर्क फॉर्म से संदेश गया', await b.eval(`
     const m = document.querySelector('.form-msg');
     return m && m.classList.contains('ok') && m.classList.contains('show');`));
 
   await b.goto(BASE + '/admin');
-  await sleep(1000);
+  await waitFor(b, `document.querySelectorAll('#sideNav button').length > 10`);
   const badge = await b.eval(`return (document.getElementById('badge-inbox')||{}).textContent || ''`);
   ok('साइडबार पर अपठित बैज दिखा', badge !== '', `badge="${badge}"`);
   await b.click('#sideNav button[data-sec="inbox"]');
-  await sleep(600);
+  await waitFor(b, `document.querySelector('.msg')`);
   ok('संदेश इनबॉक्स में दिखा', await b.eval(`return document.body.innerText.includes('UI टेस्ट भेजने वाला')`));
   ok('अपठित के रूप में दिखा', await b.eval(`return !!document.querySelector('.msg.unread')`));
 
   await b.click('.msg.unread button[data-mark]');
-  await sleep(1200);
-  ok('"पढ़ा हुआ" बटन चला', await b.eval(`
+  ok('"पढ़ा हुआ" बटन चला', await waitFor(b, `(() => {
     const m = [...document.querySelectorAll('.msg')].find(x => x.innerText.includes('UI टेस्ट भेजने वाला'));
-    return m && !m.classList.contains('unread');`));
+    return m && !m.classList.contains('unread');
+  })()`));
 
   const delBtn = await b.eval(`
     const m = [...document.querySelectorAll('.msg')].find(x => x.innerText.includes('UI टेस्ट भेजने वाला'));
@@ -193,14 +203,13 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   await sleep(400);
   ok('संदेश हटाने की पुष्टि विंडो खुली', await b.eval(`return document.getElementById('confirmModal').classList.contains('open')`));
   await b.click('#confirmYes');
-  await sleep(1300);
-  ok('संदेश हट गया', await b.eval(`return !document.body.innerText.includes('UI टेस्ट भेजने वाला')`));
+  ok('संदेश हट गया', await waitFor(b, `!document.body.innerText.includes('UI टेस्ट भेजने वाला')`));
 
   /* ------------------------------------------------------ mobile admin */
   console.log('\n▸ मोबाइल पर एडमिन पैनल');
   await b.viewport(390, 844, true);
   await b.goto(BASE + '/admin');
-  await sleep(900);
+  await waitFor(b, `document.querySelectorAll('#sideNav button').length > 10`);
   const mob = await b.eval(`
     const de = document.documentElement;
     return { overflow: de.scrollWidth > de.clientWidth + 1, scrollW: de.scrollWidth, cw: de.clientWidth,

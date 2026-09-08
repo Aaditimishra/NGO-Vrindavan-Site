@@ -29,7 +29,9 @@ async function req(p, opts = {}) {
   const headers = Object.assign({}, opts.headers || {});
   if (cookie) headers.Cookie = cookie;
   if (opts.json) { headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(opts.json); }
-  const res = await fetch(BASE + p, { ...opts, headers, redirect: 'manual' });
+  // Blob mode me upload poora https URL deta hai
+  const url = /^https?:\/\//.test(p) ? p : BASE + p;
+  const res = await fetch(url, { ...opts, headers, redirect: 'manual' });
   const sc = res.headers.get('set-cookie');
   if (sc) cookie = sc.split(';')[0];
   return res;
@@ -194,7 +196,7 @@ const save = (data) => req('/admin/api/content', { method: 'PUT', json: data });
   const fd = new FormData();
   fd.append('file', new Blob([svg], { type: 'image/svg+xml' }), 'e2e-test.svg');
   const up = await (await req('/admin/api/upload', { method: 'POST', body: fd })).json();
-  ok('चित्र अपलोड हुआ', up.ok === true && up.url.startsWith('/uploads/'), JSON.stringify(up));
+  ok('चित्र अपलोड हुआ', up.ok === true && /(^\/uploads\/|blob\.vercel-storage\.com\/uploads\/)/.test(up.url || ''), JSON.stringify(up));
   if (up.url) {
     ok('अपलोड किया चित्र खुल रहा है', (await req(up.url)).status === 200);
     ok('लाइब्रेरी सूची में आया', (await getJSON('/admin/api/uploads')).some(f => f.url === up.url));
@@ -204,7 +206,7 @@ const save = (data) => req('/admin/api/content', { method: 'PUT', json: data });
     c.site.logo = up.url; await save(c);
     ok('अपलोड चित्र साइट पर लगा', (await getText('/')).includes(up.url));
     c = await content(); c.site.logo = oldLogo; await save(c);
-    try { fs.unlinkSync(path.join(__dirname, '..', 'public', up.url)); } catch (_) {}
+    if (up.url.startsWith('/')) { try { fs.unlinkSync(path.join(__dirname, '..', 'public', up.url)); } catch (_) {} }
   }
   const badUp = new FormData();
   badUp.append('file', new Blob(['hello'], { type: 'text/plain' }), 'bad.txt');
