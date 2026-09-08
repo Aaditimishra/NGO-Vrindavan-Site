@@ -5,7 +5,11 @@
 const { launch } = require('./cdp');
 const BASE = process.env.BASE || 'http://127.0.0.1:3400';
 const USER = process.env.ADMIN_USER || 'admin';
-const PASS = process.env.ADMIN_PASS || 'radhe@2026';
+const PASS = process.env.ADMIN_PASS;
+if (!PASS) {
+  console.error('\n  ADMIN_PASS zaroori hai. Chalayein:  ADMIN_PASS=<aapka-password> node ' + process.argv[1].split('/').pop() + '\n');
+  process.exit(1);
+}
 const TAG = 'UI-टेस्ट-चित्र';
 
 let pass = 0, fail = 0;
