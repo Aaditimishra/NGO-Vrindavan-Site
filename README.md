@@ -127,32 +127,25 @@ node tools/responsive-test.js      # 45 संयोजन — हर पेज 
 
 ---
 
-## 🌐 इंटरनेट पर लाइव करने के लिए
+## 🌐 लाइव वेबसाइट
 
-### Vercel (जो इस प्रोजेक्ट के लिए तैयार है)
+**https://golok-dham-seva-trust.vercel.app** · प्रबंधन: `/admin`
 
-रिपॉज़िटरी Vercel पर import करें — `vercel.json` पहले से मौजूद है, कोई सेटिंग नहीं बदलनी।
+Vercel पर तैनात है, GitHub के `main` ब्रांच से। Blob storage जुड़ा हुआ है,
+इसलिए एडमिन पैनल के बदलाव एवं अपलोड की गई तस्वीरें सुरक्षित रहती हैं।
 
-**⚠️ एक ज़रूरी कदम:** Vercel पर फाइलें सेव नहीं की जा सकतीं (read-only filesystem),
-इसलिए एडमिन पैनल के बदलाव सुरक्षित रखने हेतु **Blob storage** जोड़ना अनिवार्य है:
+### Vercel सेटअप (पहले से हो चुका)
 
-1. Vercel प्रोजेक्ट → **Storage** टैब → **Create Database** → **Blob** → Create
-2. उसी प्रोजेक्ट से **Connect** करें (इससे `BLOB_READ_WRITE_TOKEN` अपने आप जुड़ जाता है)
-3. **Redeploy** करें
-
-Blob जुड़ते ही कंटेंट एवं अपलोड की गई फोटो Blob में सुरक्षित रहती हैं।
-*Blob जोड़े बिना साइट दिखेगी तो सही, पर एडमिन पैनल में "सहेजें" काम नहीं करेगा।*
-
-**अनुशंसित Environment Variables** (Vercel → Settings → Environment Variables):
-
-| नाम | क्यों |
+| क्या | विवरण |
 |---|---|
-| `SESSION_SECRET` | कोई भी लंबा गुप्त शब्द — इसके बिना हर deploy पर लॉगिन टूट जाएगा |
-| `ADMIN_USER` | एडमिन यूज़रनेम (डिफ़ॉल्ट `admin`) |
-| `ADMIN_PASSWORD` | पहला पासवर्ड — केवल पहली बार खाता बनाते समय उपयोग होता है |
+| Project | `aditi-mishra/golok-dham-seva-trust` |
+| Storage | Vercel Blob store `golok-dham-cms` (जुड़ा हुआ) |
+| Env vars | `SESSION_SECRET`, `ADMIN_USER`, `ADMIN_PASSWORD`, `BLOB_READ_WRITE_TOKEN` |
 
-> कंटेंट बदलने के बाद वेबसाइट पर दिखने में अधिकतम 10 सेकंड लग सकते हैं (कैश)।
-> एडमिन पैनल में बदलाव तुरंत दिखता है।
+नया deploy: `npx vercel --prod` (अथवा `main` पर push करें)।
+
+> `SESSION_SECRET` कभी न बदलें — कंटेंट Blob में उसी से बने गुप्त फोल्डर में
+> रखा जाता है। बदलने पर साइट खाली seed कंटेंट से शुरू हो जाएगी।
 
 ### VPS / Railway / Render / cPanel (Node.js App)
 
