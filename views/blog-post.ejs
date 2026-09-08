@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head><%- include('partials/head') %></head>
+<body class="<%= bodyClass %>">
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--marigold)"><%= formatDate(post.date) %></span>
+    <h1 style="font-size:clamp(1.7rem,3.6vw,2.7rem)"><%= post.title %></h1>
+    <nav class="crumbs"><a href="/">मुख्य पृष्ठ</a><span>›</span><a href="/blog">समाचार</a><span>›</span><%= post.author %></nav>
+  </div>
+  <div class="page-wave"><%- include('partials/wave', { waveFill: '#FFFBF4' }) %></div>
+</section>
+
+<section class="section section-cream">
+  <div class="container article">
+    <div class="article-img reveal"><img src="<%= post.image %>" alt="<%= post.title %>"></div>
+    <div class="article-body reveal d1">
+      <% String(post.content || '').split(/\n\s*\n/).forEach(function(para){ %>
+        <p><%= para.trim() %></p>
+      <% }) %>
+    </div>
+    <div class="mt-5 text-center reveal">
+      <a href="/blog" class="btn btn-outline">सभी समाचार देखें</a>
+      <a href="/donate" class="btn btn-primary"><svg><use href="#i-heart"/></svg>सेवा में सहयोग करें</a>
+    </div>
+  </div>
+</section>
+
+<% var others = c.blog.posts.filter(function(p){ return p.slug !== post.slug }).slice(0,3); %>
+<% if (others.length) { %>
+<section class="section section-sand">
+  <div class="container">
+    <div class="sec-head reveal"><span class="eyebrow">और पढ़ें</span><h2>अन्य समाचार</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div></div>
+    <div class="blog-grid">
+      <% others.forEach(function(p, i){ %>
+      <article class="blog-card reveal d<%= i+1 %>">
+        <a href="/blog/<%= p.slug %>" class="blog-img"><img src="<%= p.image %>" alt="<%= p.title %>" loading="lazy"></a>
+        <div class="blog-body">
+          <div class="blog-meta"><span><svg><use href="#i-calendar"/></svg><%= formatDate(p.date) %></span></div>
+          <h3><a href="/blog/<%= p.slug %>"><%= p.title %></a></h3>
+          <p><%= p.excerpt %></p>
+        </div>
+      </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<%- include('partials/footer') %>
+</body>
+</html>

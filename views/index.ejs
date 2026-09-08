@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head><%- include('partials/head') %></head>
+<body class="<%= bodyClass %>">
+<%- include('partials/header') %>
+
+<!-- ══════════════════════════════════════════════════ HERO ══ -->
+<section class="hero">
+  <% c.home.heroSlides.forEach(function(s, i){ %>
+  <div class="hero-slide <%= i === 0 ? 'active' : '' %>">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="hero-shlok"><%= s.shlok %></span>
+        <h1><%= s.title %><em><%= s.titleHighlight %></em></h1>
+        <p><%= s.subtitle %></p>
+        <div class="hero-btns">
+          <a href="<%= s.btnLink %>" class="btn btn-primary btn-lg"><%= s.btnText %><svg><use href="#i-arrow"/></svg></a>
+          <% if (s.btn2Text) { %><a href="<%= s.btn2Link %>" class="btn btn-ghost btn-lg"><%= s.btn2Text %></a><% } %>
+        </div>
+      </div>
+      <div class="hero-art"><div class="frame"><img src="<%= s.image %>" alt="<%= s.title %>"></div></div>
+    </div>
+  </div>
+  <% }) %>
+  <% if (c.home.heroSlides.length > 1) { %>
+  <div class="hero-dots">
+    <% c.home.heroSlides.forEach(function(s, i){ %>
+      <button class="<%= i === 0 ? 'active' : '' %>" aria-label="स्लाइड <%= i+1 %>"></button>
+    <% }) %>
+  </div>
+  <% } %>
+  <div class="hero-wave"><%- include('partials/wave', { waveFill: '#FFFBF4' }) %></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ WELCOME ══ -->
+<section class="section section-cream">
+  <div class="container welcome-grid">
+    <div class="welcome-art reveal">
+      <div class="frame"><img src="<%= c.home.welcomeImage %>" alt="<%= c.site.nameHi %>"></div>
+      <div class="welcome-badge">
+        <b><%= new Date().getFullYear() - parseInt(c.site.estYear) %>+</b>
+        <span>वर्षों की सेवा</span>
+      </div>
+    </div>
+    <div class="welcome-body reveal d1">
+      <span class="eyebrow">स्वागतम्</span>
+      <h2><%= c.home.welcomeHeading %></h2>
+      <p class="lead"><%= c.home.welcomeSubheading %></p>
+      <p><%= c.home.welcomeText %></p>
+      <p><%= c.home.welcomeText2 %></p>
+      <a href="/about" class="btn btn-teal"><%= c.home.welcomeBtnText %><svg><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════ STATS ══ -->
+<section class="stats-band">
+  <div class="container">
+    <div class="stats-grid">
+      <% c.home.stats.forEach(function(s, i){ %>
+      <div class="stat reveal d<%= i+1 %>">
+        <div class="stat-icon"><svg><use href="#i-<%= s.icon || 'lotus' %>"/></svg></div>
+        <b><span data-count="<%= parseInt(String(s.number).replace(/\D/g,'')) || 0 %>">0</span><%= s.suffix || '' %></b>
+        <span><%= s.label %></span>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ SEVA ══ -->
+<section class="section section-cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">सेवा कार्य</span>
+      <h2><%= c.home.sevaHeading %></h2>
+      <p><%= c.home.sevaSubheading %></p>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="card-grid">
+      <% c.seva.items.slice(0,6).forEach(function(s, i){ %>
+      <article class="seva-card reveal d<%= (i % 3) + 1 %>">
+        <div class="seva-img">
+          <img src="<%= s.image %>" alt="<%= s.title %>" loading="lazy">
+          <span class="seva-icon"><svg><use href="#i-<%= s.icon || 'lotus' %>"/></svg></span>
+        </div>
+        <div class="seva-body">
+          <h3><%= s.title %></h3>
+          <p><%= s.short %></p>
+          <a href="/seva" class="seva-link">विस्तार से जानें <svg><use href="#i-arrow"/></svg></a>
+        </div>
+      </article>
+      <% }) %>
+    </div>
+    <div class="text-center mt-5 reveal">
+      <a href="/seva" class="btn btn-outline btn-lg">सभी सेवाएँ देखें<svg><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════ QUOTE ══ -->
+<section class="quote-band">
+  <div class="container reveal">
+    <div class="quote-mark">&ldquo;</div>
+    <blockquote><%= c.home.quote %></blockquote>
+    <cite>— <%= c.home.quoteAuthor %></cite>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ GALLERY PREVIEW ══ -->
+<section class="section section-sand">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">झलकियाँ</span>
+      <h2>सेवा के कुछ क्षण</h2>
+      <p>हमारे सेवा कार्यों की कुछ तस्वीरें जो हमें प्रतिदिन प्रेरणा देती हैं</p>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="gal-grid">
+      <% c.gallery.images.slice(0,6).forEach(function(g, i){ %>
+      <figure class="gal-item reveal d<%= (i % 3) + 1 %>" data-cat="<%= g.category %>" data-full="<%= g.src %>" data-cap="<%= g.caption %>">
+        <img src="<%= g.src %>" alt="<%= g.caption %>" loading="lazy">
+        <figcaption class="gal-cap"><%= g.caption %></figcaption>
+      </figure>
+      <% }) %>
+    </div>
+    <div class="text-center mt-5 reveal">
+      <a href="/gallery" class="btn btn-outline btn-lg">पूरी गैलरी देखें<svg><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ UPCOMING EVENTS ══ -->
+<% if (c.events.upcoming && c.events.upcoming.length) { %>
+<section class="section section-cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">आगामी</span>
+      <h2>उत्सव एवं कार्यक्रम</h2>
+      <p>हमारे आगामी सेवा कार्यक्रमों में सहभागी बनें</p>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <% c.events.upcoming.slice(0,2).forEach(function(e){ %>
+    <article class="event-card reveal">
+      <div class="event-img">
+        <img src="<%= e.image %>" alt="<%= e.title %>" loading="lazy">
+        <div class="event-date">
+          <b><%= new Date(e.date).getDate() || '' %></b>
+          <span><%= formatDate(e.date).split(' ').slice(1).join(' ') %></span>
+        </div>
+      </div>
+      <div class="event-body">
+        <span class="badge">आगामी कार्यक्रम</span>
+        <h3><%= e.title %></h3>
+        <div class="event-meta">
+          <span><svg><use href="#i-clock"/></svg><%= e.time %></span>
+          <span><svg><use href="#i-map"/></svg><%= e.venue %></span>
+        </div>
+        <p><%= e.text %></p>
+        <a href="/events" class="seva-link">सभी कार्यक्रम देखें <svg><use href="#i-arrow"/></svg></a>
+      </div>
+    </article>
+    <% }) %>
+  </div>
+</section>
+<% } %>
+
+<!-- ═══════════════════════════════════════════ TESTIMONIALS ══ -->
+<section class="section section-sand">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">अनुभव</span>
+      <h2>लोग क्या कहते हैं</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="testi-grid">
+      <% c.testimonials.forEach(function(t, i){ %>
+      <div class="testi-card reveal d<%= i+1 %>">
+        <p>“<%= t.text %>”</p>
+        <div class="testi-who">
+          <img src="<%= t.image %>" alt="<%= t.name %>" loading="lazy">
+          <span><b><%= t.name %></b><span><%= t.role %></span></span>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════ BLOG ══ -->
+<% if (c.blog.posts && c.blog.posts.length) { %>
+<section class="section section-cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">ताजा समाचार</span>
+      <h2>ट्रस्ट की गतिविधियाँ</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="blog-grid">
+      <% c.blog.posts.slice(0,3).forEach(function(p, i){ %>
+      <article class="blog-card reveal d<%= i+1 %>">
+        <a href="/blog/<%= p.slug %>" class="blog-img"><img src="<%= p.image %>" alt="<%= p.title %>" loading="lazy"></a>
+        <div class="blog-body">
+          <div class="blog-meta">
+            <span><svg><use href="#i-calendar"/></svg><%= formatDate(p.date) %></span>
+            <span><svg><use href="#i-user"/></svg><%= p.author %></span>
+          </div>
+          <h3><a href="/blog/<%= p.slug %>"><%= p.title %></a></h3>
+          <p><%= p.excerpt %></p>
+          <a href="/blog/<%= p.slug %>" class="seva-link">पूरा पढ़ें <svg><use href="#i-arrow"/></svg></a>
+        </div>
+      </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- ═══════════════════════════════════════════════════ CTA ══ -->
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div class="reveal">
+      <h2><%= c.home.ctaHeading %></h2>
+      <p><%= c.home.ctaText %></p>
+    </div>
+    <div class="reveal d1">
+      <a href="/donate" class="btn btn-primary btn-lg"><svg><use href="#i-heart"/></svg><%= c.home.ctaBtnText %></a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+</body>
+</html>

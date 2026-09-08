@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head><%- include('partials/head') %></head>
+<body class="<%= bodyClass %>">
+<%- include('partials/header') %>
+<section class="section section-cream">
+  <div class="container notfound">
+    <b>404</b>
+    <h2>यह पृष्ठ नहीं मिला</h2>
+    <p style="color:var(--muted);max-width:52ch;margin:0 auto 30px">क्षमा करें, जिस पृष्ठ की आप तलाश कर रहे हैं वह उपलब्ध नहीं है। कृपया मुख्य पृष्ठ पर लौटें।</p>
+    <a href="/" class="btn btn-primary btn-lg">मुख्य पृष्ठ पर जाएँ<svg><use href="#i-arrow"/></svg></a>
+  </div>
+</section>
+<%- include('partials/footer') %>
+</body>
+</html>

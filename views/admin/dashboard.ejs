@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>प्रबंधन पैनल — <%= c.site.nameHi %></title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪷</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<div class="admin">
+  <aside class="side" id="side">
+    <div class="side-brand">
+      <span class="mark"><img src="<%= c.site.logo %>" alt=""></span>
+      <span><b><%= c.site.nameHi %></b><span>प्रबंधन पैनल</span></span>
+    </div>
+    <ul class="side-nav" id="sideNav"></ul>
+    <div class="side-foot">
+      <a href="/" target="_blank">🌐 वेबसाइट देखें</a>
+      <a href="/admin/logout">🚪 लॉगआउट (<%= user %>)</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar-a">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="menu-btn" id="menuBtn">☰</button>
+        <div>
+          <h2 id="secTitle">लोड हो रहा है...</h2>
+          <div class="crumb">यहाँ किया गया बदलाव सहेजते ही वेबसाइट पर दिख जाएगा</div>
+        </div>
+      </div>
+      <div class="acts">
+        <a href="/" target="_blank" class="btn-a ghost">👁 वेबसाइट देखें</a>
+      </div>
+    </div>
+    <div class="content" id="content"></div>
+  </main>
+</div>
+
+<div class="savebar" id="savebar">
+  <span class="status" id="status">सभी बदलाव सहेजे हुए हैं</span>
+  <button class="btn-a primary" id="saveBtn">💾 सहेजें</button>
+</div>
+
+<div class="modal" id="mediaModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>चित्र लाइब्रेरी</h3>
+      <button class="close-x" id="mediaClose">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="drop" id="drop">
+        📁 नया चित्र यहाँ खींचकर छोड़ें, अथवा क्लिक करके चुनें<br>
+        <small>JPG · PNG · WEBP · SVG (अधिकतम 8MB)</small>
+      </div>
+      <div class="media-grid" id="mediaGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="confirmModal">
+  <div class="modal-card" style="width:min(100%,420px)">
+    <div class="modal-body" style="text-align:center;padding:32px 28px">
+      <div style="font-size:2.4rem;margin-bottom:8px">🗑️</div>
+      <h3 id="confirmTitle" style="margin-bottom:6px"></h3>
+      <p id="confirmNote" style="color:var(--a-muted);font-size:.9rem;margin:0 0 22px"></p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button class="btn-a ghost" id="confirmNo">रहने दें</button>
+        <button class="btn-a primary" id="confirmYes" style="background:linear-gradient(135deg,#9E2E49,#C0405F);box-shadow:0 6px 18px rgba(192,64,95,.3)">हाँ, हटाएँ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" accept="image/*" hidden>
+<div class="toast" id="toast"></div>
+<script src="/js/admin.js"></script>
+</body>
+</html>

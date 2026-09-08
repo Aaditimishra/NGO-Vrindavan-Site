@@ -1,0 +1,9 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--marigold)"><%= eyebrow %></span>
+    <h1><%= title %></h1>
+    <p><%= subtitle %></p>
+    <nav class="crumbs"><a href="/">मुख्य पृष्ठ</a><span>›</span><%= title %></nav>
+  </div>
+  <div class="page-wave"><%- include('wave', { waveFill: typeof waveFill !== 'undefined' ? waveFill : '#FFFBF4' }) %></div>
+</section>

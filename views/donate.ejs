@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head><%- include('partials/head') %></head>
+<body class="<%= bodyClass %>">
+<%- include('partials/header') %>
+<%- include('partials/pagehero', { eyebrow: 'सहयोग', title: c.donate.heroTitle, subtitle: c.donate.heroSubtitle, waveFill: '#FFFBF4' }) %>
+
+<section class="section section-cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p style="font-size:1.1rem;color:var(--text)"><%= c.donate.intro %></p>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="donate-grid">
+      <% c.donate.options.forEach(function(o, i){ %>
+      <div class="donate-card reveal d<%= (i % 4) + 1 %>">
+        <div class="donate-amt">₹<%= o.amount %></div>
+        <h3><%= o.title %></h3>
+        <p><%= o.text %></p>
+      </div>
+      <% }) %>
+    </div>
+    <p class="text-center mt-4" style="color:var(--muted);font-size:.95rem">आप अपनी श्रद्धा अनुसार कोई भी राशि दान कर सकते हैं।</p>
+  </div>
+</section>
+
+<section class="section section-sand" id="bank">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">दान विधि</span>
+      <h2>कैसे दान करें</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="pay-grid">
+      <div class="pay-box reveal">
+        <h3><svg><use href="#i-bank"/></svg> बैंक खाता विवरण</h3>
+        <dl style="margin:0">
+          <div class="detail-row"><dt>खाता नाम</dt><dd><%= c.donate.bank.accountName %></dd></div>
+          <div class="detail-row"><dt>खाता संख्या</dt><dd><%= c.donate.bank.accountNumber %> <button class="copy-btn" data-copy="<%= c.donate.bank.accountNumber %>">कॉपी</button></dd></div>
+          <div class="detail-row"><dt>बैंक</dt><dd><%= c.donate.bank.bankName %></dd></div>
+          <div class="detail-row"><dt>शाखा</dt><dd><%= c.donate.bank.branch %></dd></div>
+          <div class="detail-row"><dt>IFSC कोड</dt><dd><%= c.donate.bank.ifsc %> <button class="copy-btn" data-copy="<%= c.donate.bank.ifsc %>">कॉपी</button></dd></div>
+          <div class="detail-row"><dt>खाता प्रकार</dt><dd><%= c.donate.bank.accountType %></dd></div>
+          <div class="detail-row"><dt>PAN</dt><dd><%= c.site.pan %></dd></div>
+          <div class="detail-row"><dt>80G पंजीकरण</dt><dd><%= c.site.eightyG %></dd></div>
+        </dl>
+        <div class="note-box mt-4" id="upi">
+          <strong>ध्यान दें:</strong> <%= c.donate.taxNote %>
+        </div>
+      </div>
+
+      <div class="qr-box reveal d1">
+        <h3 style="justify-content:center;display:flex;align-items:center;gap:10px"><svg style="width:22px;height:22px;color:var(--saffron)"><use href="#i-upi"/></svg> UPI से दान</h3>
+        <img src="<%= c.donate.upi.qrImage %>" alt="UPI QR">
+        <p class="upi-id"><%= c.donate.upi.id %></p>
+        <button class="copy-btn" data-copy="<%= c.donate.upi.id %>" style="font-size:.95rem;border:1px solid var(--line);padding:8px 18px;border-radius:30px;margin-top:8px">UPI ID कॉपी करें</button>
+        <p style="font-size:.88rem;color:var(--muted);margin-top:14px"><%= c.donate.upi.name %></p>
+        <p style="font-size:.85rem;color:var(--muted)">GPay · PhonePe · Paytm · BHIM</p>
+      </div>
+    </div>
+
+    <div class="mv-grid mt-5">
+      <div class="mv-card reveal">
+        <div class="mv-icon"><svg><use href="#i-cloth"/></svg></div>
+        <h3><%= c.donate.inKindHeading %></h3>
+        <p><%= c.donate.inKindText %></p>
+        <a href="/contact" class="seva-link">संपर्क करें <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="mv-card reveal d1">
+        <div class="mv-icon"><svg><use href="#i-shield"/></svg></div>
+        <h3>पूर्ण पारदर्शिता</h3>
+        <p><%= c.donate.trustNote %></p>
+        <a href="/gallery" class="seva-link">सेवा की तस्वीरें देखें <svg><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">जिज्ञासा</span>
+      <h2>सामान्य प्रश्न</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="faq-list reveal">
+      <% c.faq.forEach(function(f){ %>
+      <div class="faq-item">
+        <button class="faq-q"><%= f.q %><i>+</i></button>
+        <div class="faq-a"><p><%= f.a %></p></div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div class="reveal"><h2>दान के बाद रसीद हेतु संपर्क करें</h2><p>व्हाट्सएप पर स्क्रीनशॉट भेजें, 80G प्रमाणपत्र शीघ्र भेज दिया जाएगा।</p></div>
+    <div class="reveal d1"><a href="https://wa.me/<%= c.contact.whatsapp.replace(/\D/g,'') %>" target="_blank" rel="noopener" class="btn btn-primary btn-lg"><svg><use href="#i-wa"/></svg>व्हाट्सएप करें</a></div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+</body>
+</html>

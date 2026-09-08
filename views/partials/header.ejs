@@ -1,0 +1,43 @@
+<%- include('icons') %>
+
+<div class="topbar">
+  <div class="container inner">
+    <div class="tb-left">
+      <span class="tb-item"><svg><use href="#i-phone"/></svg><a href="tel:<%= c.contact.phone.replace(/\s/g,'') %>"><%= c.contact.phone %></a></span>
+      <span class="tb-item"><svg><use href="#i-mail"/></svg><a href="mailto:<%= c.contact.email %>"><%= c.contact.email %></a></span>
+      <span class="tb-item"><svg><use href="#i-clock"/></svg><%= c.contact.timings %></span>
+    </div>
+    <div class="tb-social">
+      <% if (c.social.facebook) { %><a href="<%= c.social.facebook %>" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a><% } %>
+      <% if (c.social.instagram) { %><a href="<%= c.social.instagram %>" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a><% } %>
+      <% if (c.social.youtube) { %><a href="<%= c.social.youtube %>" target="_blank" rel="noopener" aria-label="YouTube"><svg><use href="#i-yt"/></svg></a><% } %>
+      <% if (c.social.twitter) { %><a href="<%= c.social.twitter %>" target="_blank" rel="noopener" aria-label="X"><svg><use href="#i-tw"/></svg></a><% } %>
+      <% if (c.social.linkedin) { %><a href="<%= c.social.linkedin %>" target="_blank" rel="noopener" aria-label="LinkedIn"><svg><use href="#i-in"/></svg></a><% } %>
+    </div>
+  </div>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a href="/" class="brand">
+      <span class="brand-mark"><img src="<%= c.site.logo %>" alt="<%= c.site.name %>"></span>
+      <span class="brand-text">
+        <span class="brand-name"><%= c.site.nameHi %></span>
+        <span class="brand-sub">Vrindavan · Since <%= c.site.estYear %></span>
+      </span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="/" class="<%= path === '/' ? 'active' : '' %>">मुख्य पृष्ठ</a>
+      <a href="/about" class="<%= path.startsWith('/about') ? 'active' : '' %>">हमारे बारे में</a>
+      <a href="/seva" class="<%= path.startsWith('/seva') ? 'active' : '' %>">सेवाएँ</a>
+      <a href="/gallery" class="<%= path.startsWith('/gallery') ? 'active' : '' %>">गैलरी</a>
+      <a href="/events" class="<%= path.startsWith('/events') ? 'active' : '' %>">उत्सव</a>
+      <a href="/blog" class="<%= path.startsWith('/blog') ? 'active' : '' %>">समाचार</a>
+      <a href="/volunteer" class="<%= path.startsWith('/volunteer') ? 'active' : '' %>">स्वयंसेवक</a>
+      <a href="/contact" class="<%= path.startsWith('/contact') ? 'active' : '' %>">संपर्क</a>
+      <a href="/donate" class="nav-cta">दान करें</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="मेन्यू"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-backdrop" id="navBackdrop"></div>

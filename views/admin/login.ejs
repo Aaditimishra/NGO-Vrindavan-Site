@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>प्रबंधन लॉगिन — <%= c.site.nameHi %></title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪷</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<div class="login-wrap">
+  <form class="login-card" method="post" action="/admin/login">
+    <div class="mark"><img src="<%= c.site.logo %>" alt=""></div>
+    <h1>प्रबंधन पैनल</h1>
+    <p class="sub"><%= c.site.nameHi %></p>
+    <% if (error) { %><div class="login-err"><%= error %></div><% } %>
+    <div class="fld" style="text-align:left"><label>यूज़रनेम</label><input type="text" name="username" required autofocus autocomplete="username"></div>
+    <div class="fld" style="text-align:left"><label>पासवर्ड</label><input type="password" name="password" required autocomplete="current-password"></div>
+    <button class="btn-a primary" style="width:100%;justify-content:center;padding:13px">लॉगिन करें</button>
+    <p class="login-hint">यह पैनल केवल ट्रस्ट के अधिकृत सदस्यों के लिए है।<br><a href="/">← वेबसाइट पर वापस जाएँ</a></p>
+  </form>
+</div>
+</body>
+</html>

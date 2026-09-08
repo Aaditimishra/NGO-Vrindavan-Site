@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head><%- include('partials/head') %></head>
+<body class="<%= bodyClass %>">
+<%- include('partials/header') %>
+<%- include('partials/pagehero', { eyebrow: 'संपर्क', title: c.contact.heroTitle, subtitle: c.contact.heroSubtitle, waveFill: '#FFFBF4' }) %>
+
+<section class="section section-cream">
+  <div class="container">
+    <div class="contact-grid">
+      <aside class="info-card reveal">
+        <h3>संपर्क विवरण</h3>
+        <div class="info-item">
+          <span class="info-ico"><svg><use href="#i-map"/></svg></span>
+          <div><h4>पता</h4><p><%= c.contact.addressLine1 %><br><%= c.contact.addressLine2 %></p></div>
+        </div>
+        <div class="info-item">
+          <span class="info-ico"><svg><use href="#i-phone"/></svg></span>
+          <div><h4>दूरभाष</h4>
+            <p><a href="tel:<%= c.contact.phone.replace(/\s/g,'') %>"><%= c.contact.phone %></a></p>
+            <% if (c.contact.phoneAlt) { %><p><a href="tel:<%= c.contact.phoneAlt.replace(/\s/g,'') %>"><%= c.contact.phoneAlt %></a></p><% } %>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-ico"><svg><use href="#i-mail"/></svg></span>
+          <div><h4>ईमेल</h4>
+            <p><a href="mailto:<%= c.contact.email %>"><%= c.contact.email %></a></p>
+            <% if (c.contact.emailAlt) { %><p><a href="mailto:<%= c.contact.emailAlt %>"><%= c.contact.emailAlt %></a></p><% } %>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-ico"><svg><use href="#i-clock"/></svg></span>
+          <div><h4>समय</h4><p><%= c.contact.timings %></p></div>
+        </div>
+        <div class="info-item">
+          <span class="info-ico"><svg><use href="#i-wa"/></svg></span>
+          <div><h4>व्हाट्सएप</h4><p><a href="https://wa.me/<%= c.contact.whatsapp.replace(/\D/g,'') %>" target="_blank" rel="noopener"><%= c.contact.whatsapp %></a></p></div>
+        </div>
+        <div class="footer-social" style="margin-top:24px">
+          <% if (c.social.facebook) { %><a href="<%= c.social.facebook %>" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a><% } %>
+          <% if (c.social.instagram) { %><a href="<%= c.social.instagram %>" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a><% } %>
+          <% if (c.social.youtube) { %><a href="<%= c.social.youtube %>" target="_blank" rel="noopener" aria-label="YouTube"><svg><use href="#i-yt"/></svg></a><% } %>
+        </div>
+      </aside>
+
+      <div class="reveal d1">
+        <form class="form-card" action="/api/contact" method="post" data-ajax>
+          <div class="sec-head left" style="margin-bottom:24px">
+            <span class="eyebrow"><%= c.contact.formHeading %></span>
+            <h2 style="font-size:1.6rem">आपका संदेश हमें भेजें</h2>
+          </div>
+          <div class="form-msg"></div>
+          <div class="form-row">
+            <div class="field"><label>पूरा नाम <i>*</i></label><input type="text" name="name" required placeholder="आपका नाम"></div>
+            <div class="field"><label>मोबाइल नंबर</label><input type="tel" name="phone" placeholder="+91 ..."></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>ईमेल</label><input type="email" name="email" placeholder="you@example.com"></div>
+            <div class="field"><label>विषय</label><input type="text" name="subject" placeholder="दान / सेवा / अन्य"></div>
+          </div>
+          <div class="field"><label>संदेश <i>*</i></label><textarea name="message" required placeholder="अपना संदेश लिखें..."></textarea></div>
+          <button type="submit" class="btn btn-primary btn-lg"><svg><use href="#i-mail"/></svg>संदेश भेजें</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-sand" style="padding-top:0">
+  <div class="container">
+    <div class="map-frame reveal">
+      <iframe src="<%= c.contact.mapEmbed %>" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="स्थान"></iframe>
+    </div>
+    <div class="text-center mt-4">
+      <a href="<%= c.contact.mapLink %>" target="_blank" rel="noopener" class="btn btn-outline"><svg><use href="#i-map"/></svg>Google Maps पर देखें</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream" id="faq">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">जिज्ञासा</span>
+      <h2>सामान्य प्रश्न</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="faq-list reveal">
+      <% c.faq.forEach(function(f){ %>
+      <div class="faq-item">
+        <button class="faq-q"><%= f.q %><i>+</i></button>
+        <div class="faq-a"><p><%= f.a %></p></div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+</body>
+</html>

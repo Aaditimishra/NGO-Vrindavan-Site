@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head><%- include('partials/head') %></head>
+<body class="<%= bodyClass %>">
+<%- include('partials/header') %>
+<%- include('partials/pagehero', { eyebrow: 'कार्यक्रम', title: c.events.heroTitle, subtitle: c.events.heroSubtitle, waveFill: '#FFFBF4' }) %>
+
+<section class="section section-cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">आगामी</span>
+      <h2>आने वाले कार्यक्रम</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <% if (!c.events.upcoming.length) { %>
+      <p class="text-center" style="color:var(--muted)">फिलहाल कोई आगामी कार्यक्रम निर्धारित नहीं है।</p>
+    <% } %>
+    <% c.events.upcoming.forEach(function(e){ %>
+    <article class="event-card reveal">
+      <div class="event-img">
+        <img src="<%= e.image %>" alt="<%= e.title %>" loading="lazy">
+        <div class="event-date">
+          <b><%= new Date(e.date).getDate() || '' %></b>
+          <span><%= formatDate(e.date).split(' ').slice(1).join(' ') %></span>
+        </div>
+      </div>
+      <div class="event-body">
+        <span class="badge">आगामी</span>
+        <h3><%= e.title %></h3>
+        <div class="event-meta">
+          <span><svg><use href="#i-calendar"/></svg><%= formatDate(e.date) %></span>
+          <span><svg><use href="#i-clock"/></svg><%= e.time %></span>
+          <span><svg><use href="#i-map"/></svg><%= e.venue %></span>
+        </div>
+        <p><%= e.text %></p>
+        <a href="/contact" class="seva-link">सहभागिता हेतु संपर्क करें <svg><use href="#i-arrow"/></svg></a>
+      </div>
+    </article>
+    <% }) %>
+  </div>
+</section>
+
+<section class="section section-sand">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">स्मृतियाँ</span>
+      <h2>संपन्न कार्यक्रम</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <% c.events.past.forEach(function(e){ %>
+    <article class="event-card reveal">
+      <div class="event-img">
+        <img src="<%= e.image %>" alt="<%= e.title %>" loading="lazy">
+        <div class="event-date">
+          <b><%= new Date(e.date).getDate() || '' %></b>
+          <span><%= formatDate(e.date).split(' ').slice(1).join(' ') %></span>
+        </div>
+      </div>
+      <div class="event-body">
+        <span class="badge past">संपन्न</span>
+        <h3><%= e.title %></h3>
+        <div class="event-meta">
+          <span><svg><use href="#i-calendar"/></svg><%= formatDate(e.date) %></span>
+          <span><svg><use href="#i-map"/></svg><%= e.venue %></span>
+        </div>
+        <p><%= e.text %></p>
+      </div>
+    </article>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+</body>
+</html>

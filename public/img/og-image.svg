@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="g45" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#DDD0EC"/><stop offset="52%" stop-color="#7B57A3"/><stop offset="100%" stop-color="#2B1B47"/>
+    </linearGradient>
+    <radialGradient id="glow45" cx="50%" cy="40%" r="62%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".55"/><stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ray45" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#FFF6DC" stop-opacity=".9"/><stop offset="100%" stop-color="#FFF6DC" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g45)"/>
+  <path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(0 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(30 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(60 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(90 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(120 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(150 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(180 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(210 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(240 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(270 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(300 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/><path d="M600 264.59999999999997 L560 -135.40000000000003 L640 -135.40000000000003 Z" transform="rotate(330 600 264.59999999999997)" fill="url(#ray45)" opacity=".28"/>
+  <rect width="1200" height="630" fill="url(#glow45)"/>
+  <g opacity=".33" stroke="#FFF6DC" fill="none" stroke-width="1.6">
+    <circle cx="600" cy="264.59999999999997" r="432"/>
+    <circle cx="600" cy="264.59999999999997" r="360" stroke-dasharray="6 12"/>
+    <circle cx="600" cy="264.59999999999997" r="276"/>
+  </g>
+  <g transform="translate(400 64.59999999999997) scale(2)" color="#FFF8E6" opacity=".92"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 132c0 0-34-6-46-26 14-10 34-6 46 10 12-16 32-20 46-10-12 20-46 26-46 26z"/>
+    <path d="M100 132c-16 0-30-20-30-44 0-22 14-42 30-52 16 10 30 30 30 52 0 24-14 44-30 44z"/>
+    <path d="M100 132c-24 4-52-8-64-28M100 132c24 4 52-8 64-28"/>
+    <path d="M60 140h80" stroke-width="2.4"/></g></g>
+  <g opacity=".5" fill="none" stroke="#FFF6DC" stroke-width="1.4">
+    <path d="M0 504 Q 600 453.59999999999997 1200 504"/>
+    <path d="M0 535.5 Q 600 485.1 1200 535.5" stroke-dasharray="5 10"/>
+  </g>
+  <g opacity=".22" fill="#2B1B47">
+    <rect y="626" width="1200" height="4"/>
+  </g>
+</svg>

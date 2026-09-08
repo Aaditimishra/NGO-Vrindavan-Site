@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head><%- include('partials/head') %></head>
+<body class="<%= bodyClass %>">
+<%- include('partials/header') %>
+<%- include('partials/pagehero', { eyebrow: 'गैलरी', title: c.gallery.heroTitle, subtitle: c.gallery.heroSubtitle, waveFill: '#FFFBF4' }) %>
+
+<section class="section section-cream">
+  <div class="container">
+    <div class="gal-filters reveal">
+      <% c.gallery.categories.forEach(function(cat, i){ %>
+      <button class="<%= i === 0 ? 'active' : '' %>" data-cat="<%= i === 0 ? 'all' : cat %>"><%= cat %></button>
+      <% }) %>
+    </div>
+    <div class="gal-grid">
+      <% c.gallery.images.forEach(function(g, i){ %>
+      <figure class="gal-item reveal d<%= (i % 4) + 1 %>" data-cat="<%= g.category %>" data-full="<%= g.src %>" data-cap="<%= g.caption %>">
+        <img src="<%= g.src %>" alt="<%= g.caption %>" loading="lazy">
+        <figcaption class="gal-cap"><%= g.caption %></figcaption>
+      </figure>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+</body>
+</html>

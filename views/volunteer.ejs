@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head><%- include('partials/head') %></head>
+<body class="<%= bodyClass %>">
+<%- include('partials/header') %>
+<%- include('partials/pagehero', { eyebrow: 'सहभागिता', title: c.volunteer.heroTitle, subtitle: c.volunteer.heroSubtitle, waveFill: '#FFFBF4' }) %>
+
+<section class="section section-cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p style="font-size:1.1rem;color:var(--text)"><%= c.volunteer.intro %></p>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="values-grid">
+      <% c.volunteer.roles.forEach(function(r, i){ %>
+      <div class="value-card reveal d<%= (i % 4) + 1 %>" style="text-align:left">
+        <div class="value-num" style="margin-left:0"><svg style="width:20px;height:20px"><use href="#i-hands"/></svg></div>
+        <h3><%= r.title %></h3>
+        <p><%= r.text %></p>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section section-sand">
+  <div class="container" style="max-width:820px">
+    <div class="sec-head reveal">
+      <span class="eyebrow">पंजीकरण</span>
+      <h2><%= c.volunteer.formHeading %></h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <form class="form-card reveal" action="/api/volunteer" method="post" data-ajax>
+      <div class="form-msg"></div>
+      <div class="form-row">
+        <div class="field"><label>पूरा नाम <i>*</i></label><input type="text" name="name" required placeholder="आपका नाम"></div>
+        <div class="field"><label>मोबाइल नंबर <i>*</i></label><input type="tel" name="phone" required placeholder="+91 ..."></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>ईमेल</label><input type="email" name="email" placeholder="you@example.com"></div>
+        <div class="field"><label>शहर</label><input type="text" name="city" placeholder="वृन्दावन / मथुरा / अन्य"></div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>आप किस सेवा में सहयोग करना चाहेंगे?</label>
+          <select name="role">
+            <% c.volunteer.roles.forEach(function(r){ %><option value="<%= r.title %>"><%= r.title %></option><% }) %>
+            <option value="कोई भी सेवा">कोई भी सेवा</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>उपलब्धता</label>
+          <select name="availability">
+            <option value="सप्ताहांत">सप्ताहांत</option>
+            <option value="सप्ताह में कुछ दिन">सप्ताह में कुछ दिन</option>
+            <option value="प्रतिदिन">प्रतिदिन</option>
+            <option value="ऑनलाइन / दूर से">ऑनलाइन / दूर से</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>आप हमें कुछ बताना चाहेंगे?</label><textarea name="message" placeholder="आपका अनुभव, रुचि अथवा कोई संदेश..."></textarea></div>
+      <button type="submit" class="btn btn-primary btn-lg"><svg><use href="#i-hands"/></svg>पंजीकरण करें</button>
+      <p class="form-note mt-4">आपकी जानकारी पूर्णतः गोपनीय रखी जाएगी और केवल सेवा संबंधी संपर्क हेतु उपयोग होगी।</p>
+    </form>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <span class="brand-mark"><img src="<%= c.site.logo %>" alt=""></span>
+          <span><b><%= c.site.nameHi %></b><span>Vrindavan · <%= c.site.estYear %></span></span>
+        </div>
+        <p><%= c.footer.about %></p>
+        <div class="footer-social">
+          <% if (c.social.facebook) { %><a href="<%= c.social.facebook %>" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a><% } %>
+          <% if (c.social.instagram) { %><a href="<%= c.social.instagram %>" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a><% } %>
+          <% if (c.social.youtube) { %><a href="<%= c.social.youtube %>" target="_blank" rel="noopener" aria-label="YouTube"><svg><use href="#i-yt"/></svg></a><% } %>
+          <% if (c.social.twitter) { %><a href="<%= c.social.twitter %>" target="_blank" rel="noopener" aria-label="X"><svg><use href="#i-tw"/></svg></a><% } %>
+          <% if (c.social.linkedin) { %><a href="<%= c.social.linkedin %>" target="_blank" rel="noopener" aria-label="LinkedIn"><svg><use href="#i-in"/></svg></a><% } %>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>त्वरित लिंक</h4>
+        <ul class="footer-links">
+          <li><a href="/">मुख्य पृष्ठ</a></li>
+          <li><a href="/about">हमारे बारे में</a></li>
+          <li><a href="/seva">हमारी सेवाएँ</a></li>
+          <li><a href="/gallery">गैलरी</a></li>
+          <li><a href="/events">उत्सव एवं कार्यक्रम</a></li>
+          <li><a href="/blog">समाचार एवं ब्लॉग</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>सहभागी बनें</h4>
+        <ul class="footer-links">
+          <li><a href="/donate">दान करें</a></li>
+          <li><a href="/volunteer">स्वयंसेवक बनें</a></li>
+          <li><a href="/donate#bank">बैंक विवरण</a></li>
+          <li><a href="/donate#upi">UPI से दान</a></li>
+          <li><a href="/contact">संपर्क करें</a></li>
+          <li><a href="/contact#faq">सामान्य प्रश्न</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>संपर्क सूत्र</h4>
+        <ul class="footer-contact">
+          <li><svg><use href="#i-map"/></svg><span><%= c.contact.addressLine1 %><br><%= c.contact.addressLine2 %></span></li>
+          <li><svg><use href="#i-phone"/></svg><span><a href="tel:<%= c.contact.phone.replace(/\s/g,'') %>"><%= c.contact.phone %></a><% if (c.contact.phoneAlt) { %><br><a href="tel:<%= c.contact.phoneAlt.replace(/\s/g,'') %>"><%= c.contact.phoneAlt %></a><% } %></span></li>
+          <li><svg><use href="#i-mail"/></svg><span><a href="mailto:<%= c.contact.email %>"><%= c.contact.email %></a></span></li>
+          <li><svg><use href="#i-clock"/></svg><span><%= c.contact.timings %></span></li>
+        </ul>
+        <p class="reg-line">पंजीकरण सं.: <%= c.site.regNo %><br>PAN: <%= c.site.pan %> · 80G: <%= c.site.eightyG %></p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <%= new Date().getFullYear() %> <%= c.footer.copyright %>. सर्वाधिकार सुरक्षित।</span>
+      <span><%= c.footer.credit %> · <a href="/admin">प्रबंधन</a></span>
+    </div>
+  </div>
+</footer>
+
+<a class="float-wa" href="https://wa.me/<%= c.contact.whatsapp.replace(/\D/g,'') %>?text=<%= encodeURIComponent('राधे राधे! मुझे ट्रस्ट के बारे में जानकारी चाहिए।') %>" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg><use href="#i-wa"/></svg>
+</a>
+<button class="to-top" id="toTop" aria-label="ऊपर जाएँ"><svg width="18" height="18" style="margin:auto"><use href="#i-chev"/></svg></button>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="बंद करें">&times;</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="पिछला">&#8249;</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="अगला">&#8250;</button>
+  <div>
+    <img src="" alt="" id="lbImg">
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>

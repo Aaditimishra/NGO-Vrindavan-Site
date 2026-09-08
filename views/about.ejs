@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head><%- include('partials/head') %></head>
+<body class="<%= bodyClass %>">
+<%- include('partials/header') %>
+<%- include('partials/pagehero', { eyebrow: 'परिचय', title: c.about.heroTitle, subtitle: c.about.heroSubtitle, waveFill: '#FFFBF4' }) %>
+
+<!-- कहानी -->
+<section class="section section-cream">
+  <div class="container split">
+    <div class="split-art reveal"><div class="frame"><img src="<%= c.about.storyImage %>" alt="<%= c.about.storyHeading %>"></div></div>
+    <div class="reveal d1">
+      <div class="sec-head left">
+        <span class="eyebrow">हमारी यात्रा</span>
+        <h2><%= c.about.storyHeading %></h2>
+        <div class="ornament"><svg><use href="#i-lotus"/></svg><span></span></div>
+      </div>
+      <p><%= c.about.storyText %></p>
+      <p><%= c.about.storyText2 %></p>
+      <div class="mt-4"><a href="/seva" class="btn btn-primary">हमारी सेवाएँ देखें<svg><use href="#i-arrow"/></svg></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- मिशन / विजन -->
+<section class="section section-sand">
+  <div class="container">
+    <div class="mv-grid">
+      <div class="mv-card reveal">
+        <div class="mv-icon"><svg><use href="#i-target"/></svg></div>
+        <h3>हमारा ध्येय</h3>
+        <p><%= c.about.mission %></p>
+      </div>
+      <div class="mv-card reveal d1">
+        <div class="mv-icon"><svg><use href="#i-eye"/></svg></div>
+        <h3>हमारा स्वप्न</h3>
+        <p><%= c.about.vision %></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- मूल्य -->
+<section class="section section-cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">आधार स्तंभ</span>
+      <h2>हमारे मूल्य</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="values-grid">
+      <% c.about.values.forEach(function(v, i){ %>
+      <div class="value-card reveal d<%= (i % 4) + 1 %>">
+        <div class="value-num"><%= i + 1 %></div>
+        <h3><%= v.title %></h3>
+        <p><%= v.text %></p>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- समयरेखा -->
+<section class="section section-sand">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">सेवा यात्रा</span>
+      <h2>वर्षवार पड़ाव</h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="timeline">
+      <% c.about.timeline.forEach(function(t){ %>
+      <div class="tl-item reveal">
+        <span class="tl-dot"></span>
+        <div class="tl-card">
+          <span class="tl-year"><%= t.year %></span>
+          <h3><%= t.title %></h3>
+          <p><%= t.text %></p>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- संस्थापक -->
+<section class="section section-cream">
+  <div class="container">
+    <div class="founder reveal">
+      <div class="founder-img"><img src="<%= c.about.founderImage %>" alt="<%= c.about.founderName %>"></div>
+      <div class="founder-body">
+        <span class="eyebrow" style="color:var(--marigold)">संस्थापक संदेश</span>
+        <h3><%= c.about.founderName %></h3>
+        <span class="founder-role"><%= c.about.founderRole %></span>
+        <p>“<%= c.about.founderMessage %>”</p>
+        <span class="founder-sign"><%= c.about.founderName %></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- टीम -->
+<section class="section section-sand">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">सेवक</span>
+      <h2><%= c.about.teamHeading %></h2>
+      <div class="ornament"><span></span><svg><use href="#i-lotus"/></svg><span></span></div>
+    </div>
+    <div class="team-grid">
+      <% c.about.team.forEach(function(m, i){ %>
+      <div class="team-card reveal d<%= (i % 4) + 1 %>">
+        <div class="team-photo"><img src="<%= m.image %>" alt="<%= m.name %>" loading="lazy"></div>
+        <h3><%= m.name %></h3>
+        <div class="team-role"><%= m.role %></div>
+        <p><%= m.bio %></p>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div class="reveal"><h2>हमारे सेवा परिवार का हिस्सा बनें</h2><p>आपका सहयोग एवं आशीर्वाद ही हमारी शक्ति है।</p></div>
+    <div class="reveal d1" style="display:flex;gap:14px;flex-wrap:wrap">
+      <a href="/donate" class="btn btn-primary btn-lg"><svg><use href="#i-heart"/></svg>दान करें</a>
+      <a href="/volunteer" class="btn btn-ghost btn-lg" style="border-color:#fff;color:#fff">स्वयंसेवक बनें</a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+</body>
+</html>
