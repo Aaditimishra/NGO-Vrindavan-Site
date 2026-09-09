@@ -677,7 +677,16 @@
     if (set2) { set2.textContent = v || ''; set2.style.display = v ? '' : 'none'; }
   }
 
-  async function reload() { state = await (await fetch('/admin/api/content')).json(); }
+  async function reload() {
+    const res = await fetch('/admin/api/content');
+    state = await res.json();
+    // storage down ho to poore panel par chetavani dikhao
+    const bar = $('#storageWarn');
+    if (res.headers.get('X-Storage-Ok') === '0') {
+      bar.textContent = '⚠️ ' + decodeURIComponent(res.headers.get('X-Storage-Error') || 'भंडारण उपलब्ध नहीं है — बदलाव सहेजे नहीं जा सकेंगे।');
+      bar.style.display = 'block';
+    } else { bar.style.display = 'none'; }
+  }
 
   /* ============================================================== INIT */
 

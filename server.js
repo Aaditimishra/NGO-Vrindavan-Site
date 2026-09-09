@@ -118,7 +118,15 @@ app.post('/api/contact', wrap(async (req, res) => {
     read: false, at: new Date().toISOString()
   });
   data.messages = data.messages.slice(0, 1000);
-  await store.setContent(data);
+  try {
+    await store.setContent(data);
+  } catch (e) {
+    if (e.message === 'STORAGE_DOWN') {
+      return res.status(503).json({ ok: false,
+        error: 'क्षमा करें, इस समय संदेश सहेजा नहीं जा सका। कृपया सीधे फोन अथवा व्हाट्सएप पर संपर्क करें।' });
+    }
+    throw e;
+  }
   res.json({ ok: true, message: 'धन्यवाद! आपका संदेश प्राप्त हो गया है। हम शीघ्र संपर्क करेंगे।' });
 }));
 
@@ -135,7 +143,15 @@ app.post('/api/volunteer', wrap(async (req, res) => {
     message: sanitize(message, 3000), read: false, at: new Date().toISOString()
   });
   data.volunteers = data.volunteers.slice(0, 1000);
-  await store.setContent(data);
+  try {
+    await store.setContent(data);
+  } catch (e) {
+    if (e.message === 'STORAGE_DOWN') {
+      return res.status(503).json({ ok: false,
+        error: 'क्षमा करें, इस समय संदेश सहेजा नहीं जा सका। कृपया सीधे फोन अथवा व्हाट्सएप पर संपर्क करें।' });
+    }
+    throw e;
+  }
   res.json({ ok: true, message: 'राधे राधे! आपका पंजीकरण हो गया है। हमारी टीम शीघ्र संपर्क करेगी।' });
 }));
 
@@ -180,8 +196,15 @@ app.get('/admin', requireAuth, (req, res) => res.render('admin/dashboard', { use
 
 /* ============================================================ admin api */
 
-app.get('/admin/api/content', requireAuth, wrap(async (req, res) =>
-  res.json(await store.getContent(true))));
+const STORAGE_MSG = 'भंडारण (storage) इस समय उपलब्ध नहीं है, इसलिए बदलाव सहेजे नहीं जा सकते। ' +
+  'वेबसाइट सामान्य रूप से चल रही है। कृपया Vercel में Blob store की billing सक्रिय करें।';
+
+app.get('/admin/api/content', requireAuth, wrap(async (req, res) => {
+  const data = await store.getContent(true);
+  res.set('X-Storage-Ok', store.health.ok ? '1' : '0');
+  if (!store.health.ok) res.set('X-Storage-Error', encodeURIComponent(STORAGE_MSG));
+  res.json(data);
+}));
 
 app.put('/admin/api/content', requireAuth, wrap(async (req, res) => {
   const incoming = req.body;
@@ -191,7 +214,12 @@ app.put('/admin/api/content', requireAuth, wrap(async (req, res) => {
   const current = await store.getContent(true);
   // messages / volunteers sirf apne endpoints se badalte hain
   const merged = { ...current, ...incoming, messages: current.messages, volunteers: current.volunteers };
-  await store.setContent(merged);
+  try {
+    await store.setContent(merged);
+  } catch (e) {
+    if (e.message === 'STORAGE_DOWN') return res.status(503).json({ ok: false, error: STORAGE_MSG });
+    throw e;
+  }
   res.json({ ok: true, message: 'सफलतापूर्वक सहेजा गया' });
 }));
 
@@ -212,6 +240,7 @@ app.post('/admin/api/upload', requireAuth, (req, res) => {
       const url = await store.saveUpload(req.file.buffer, req.file.originalname, req.file.mimetype);
       res.json({ ok: true, url });
     } catch (e) {
+      if (e.message === 'STORAGE_DOWN') return res.status(503).json({ ok: false, error: STORAGE_MSG });
       res.status(500).json({ ok: false, error: 'अपलोड विफल: ' + e.message });
     }
   });
@@ -250,7 +279,12 @@ app.post('/admin/api/password', requireAuth, wrap(async (req, res) => {
     return res.status(400).json({ ok: false, error: 'नया पासवर्ड कम से कम 6 अक्षर का हो' });
   }
   cfg.passwordHash = bcrypt.hashSync(String(nextPw), 10);
-  await store.setConfig(cfg);
+  try {
+    await store.setConfig(cfg);
+  } catch (e) {
+    if (e.message === 'STORAGE_DOWN') return res.status(503).json({ ok: false, error: STORAGE_MSG });
+    throw e;
+  }
   res.json({ ok: true, message: 'पासवर्ड बदल दिया गया' });
 }));
 
